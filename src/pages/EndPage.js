@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Logo from './Logo'
-import Button from './Button'
+import { Logo } from '../components/Logo'
+import { Button } from '../components/Button'
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const ScoreSection = styled.div`
   margin-top: 32px;
 `
 
-const EndPage = ({ correctCount, quizCount, startNewGame }) => {
+export const EndPage = ({ correctCount, quizCount, startNewGame }) => {
   return (
     <Container>
       <Logo />
@@ -30,5 +30,3 @@ const EndPage = ({ correctCount, quizCount, startNewGame }) => {
     </Container>
   )
 }
-
-export default EndPage

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import reactLogoImage from './img/logo.svg'
+import reactLogoImage from '../img/logo.svg'
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const ReactLogo = styled.div`
   background-size: 100px 100px;
 `
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <Container>
       <ReactLogo />
@@ -25,5 +25,3 @@ const Logo = () => {
     </Container>
   )
 }
-
-export default Logo

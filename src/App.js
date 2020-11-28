@@ -1,52 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import MainPage from './MainPage'
-import QuizPage from './QuizPage'
-import EndPage from './EndPage'
+import { MainPage } from './pages/MainPage'
+import { QuizPage } from './pages/QuizPage'
+import { EndPage } from './pages/EndPage'
+import { firebase } from './services/firebase'
 
-const quizData = [
-  {
-    question: '53 - 39 = ?',
-    choices: ['16', '22', '12', '14'],
-    correctIndex: 3
-  },
-  {
-    question: 'อะไรไม่ใช่ผลไม้',
-    choices: ['🥝', '🥔', '🍅', '🥑'],
-    correctIndex: 1
-  },
-  {
-    question: 'ค่าย DevCamp เคยจัดมาแล้วกี่ครั้ง',
-    choices: ['3 ครั้ง', '5 ครั้ง', '7 ครั้ง', 'ไม่เคยจัดมาก่อน'],
-    correctIndex: 2
-  },
-  {
-    question: 'ประเทศใดไม่จัดอยู่ในพันธมิตรชานม',
-    choices: ['🇵🇭', '🇹🇼', '🇭🇰', '🇹🇭'],
-    correctIndex: 0
-  }
-]
+const Page = {
+  Main: 'Main',
+  Quiz: 'Quiz',
+  End: 'End'
+}
 
-const App = () => {
-  const [page, setPage] = useState('MAIN')
+export const App = () => {
+  const [page, setPage] = useState(Page.Main)
   const [correctCount, setCorrectCount] = useState(0)
+  const [quizData, setQuizData] = useState()
 
   const startNewGame = () => {
     setCorrectCount(0)
-    setPage('QUIZ')
+    setPage(Page.Quiz)
   }
 
-  if (page === 'QUIZ') {
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      const quizDataSnapshot = await firebase.database().ref('/quizzes').once('value')
+      setQuizData(quizDataSnapshot.val())
+    }
+
+    fetchQuizData()
+  }, [])
+
+  if (page === Page.Quiz) {
     return (
       <QuizPage
         quizData={quizData}
         incrementCount={() => setCorrectCount(count => count + 1)}
-        goToEndPage={() => setPage('END')}
+        goToEndPage={() => setPage(Page.End)}
       />
     )
   }
 
-  if (page === 'END') {
+  if (page === Page.End) {
     return (
       <EndPage
         correctCount={correctCount}
@@ -56,7 +50,5 @@ const App = () => {
     )
   }
 
-  return <MainPage startNewGame={startNewGame} />
+  return <MainPage startNewGame={startNewGame} loading={!quizData} />
 }
-
-export default App

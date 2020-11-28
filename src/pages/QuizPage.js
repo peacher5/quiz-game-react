@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import Logo from './Logo'
+import { Logo } from '../components/Logo'
 
 const QuestionSection = styled.div`
   background: #5debff;
@@ -35,7 +35,7 @@ const Choice = styled.div`
   }
 `
 
-const QuizPage = ({ quizData, incrementCount, goToEndPage }) => {
+export const QuizPage = ({ quizData, incrementCount, goToEndPage }) => {
   const [questionIndex, setQuestionIndex] = useState(0)
 
   const { question, choices, correctIndex } = quizData[questionIndex]
@@ -66,5 +66,3 @@ const QuizPage = ({ quizData, incrementCount, goToEndPage }) => {
     </div>
   )
 }
-
-export default QuizPage
